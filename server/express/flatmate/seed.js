@@ -36,6 +36,8 @@ var data = [
                 'prize': 400
             }
         ],
+    },{
+        
         'model': 'Request',
         'documents': [
             {
@@ -47,5 +49,7 @@ var data = [
                 'max_prize': 400
             }
         ]
+
+        
     }
 ];

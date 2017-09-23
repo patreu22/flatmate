@@ -5,7 +5,10 @@ var mongoose = require('mongoose');
 require("../models/Request");
 var Request = mongoose.model("Request");
 require("../models/Room");
-var Request = mongoose.model("Room");
+var Room = mongoose.model("Room");
+
+require("../models/User");
+var User = mongoose.model("User");
 
 
 //input parameters:
@@ -17,22 +20,22 @@ var Request = mongoose.model("Room");
 //Room params
 
 
-var request = new Request();
-req.size = 20;
-req.tags = ["smokingno", "petsyes"] 
-req.max_prize = 400;
+
+var matching = function(request, request_face_id){
+console.log('hi');
+User.find(function(err, users){
+    if(err){
+    	console.log(users);
+      return res.status(400).json(err);
+    }
+    console.log(users);
+    return res.status(200).json(users);
+    
+  });
+
+}()
 
 
-var room = new Room();
-room.size = 
-
-
-var matching = function(request, room, request_face_id, landlord_face_id){
-
-
-
-
-}
 
 
 var matching_score = function(request, room, request_face_id, landlord_face_id){
