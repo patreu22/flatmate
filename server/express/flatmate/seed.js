@@ -28,12 +28,12 @@ var data = [
         'model': 'Room',
         'documents': [
             {
-                'size': 20,
-                'prize': 400
+                'roomSize': 20,
+                'maxPrize': 400
             },
             {
-                'size': 20,
-                'prize': 400
+                'roomSize': 20,
+                'maxPrize': 400
             }
         ],
     },{
@@ -41,11 +41,11 @@ var data = [
         'model': 'Request',
         'documents': [
             {
-                'size': 30,
+                'roomSize': 30,
                 'maxPrize': 200
             },
             {
-                'size': 20,
+                'roomSize': 20,
                 'maxPrize': 400
             }
         ]
