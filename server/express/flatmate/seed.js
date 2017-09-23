@@ -64,7 +64,7 @@ var data = [
                 'maxPrice': 200,
                 "tags": ["fuckyes","pornyes","weedyes"],
                 "userInfo": {
-                    "facebookId": "1844650538896345"
+                    "facebookId": "850641068449846"
                 }
             },
             {

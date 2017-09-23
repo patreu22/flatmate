@@ -28,9 +28,9 @@ var matching = function(request, requester_access_token){
 
 
   Room.find(function(err, rooms) {
-  	  console.log("rooms:")
-      console.log(rooms); 
-      matching_score(request,rooms[0]);
+  	  //console.log("rooms:")
+      //console.log(rooms); 
+      matching_score(request,rooms[0],requester_access_token);
       //rooms.forEach(function(room){
       //	matching_score(request,room);
       //});
@@ -45,35 +45,122 @@ exports.matching=matching;
  
 
 var matching_score = function(request, room, requester_access_token){
-	console.log("\n pair:")
-	console.log(request.userInfo.facebookId)
-	console.log(room.userInfo.facebookId)
+	//console.log("\n pair:")
+	//console.log(request.userInfo.facebookId)
+	//console.log(room.userInfo.facebookId)
 
-
-	var Request_facebook_infos = {};
-	var Room_facebook_infos = {};
-
-	get_facebook_data(requester_access_token,function(facebook_infos){
+	get_facebook_data(requester_access_token,function(requester_facebook_infos){
 		console.log("got facebook infos")
-		console.log(facebook_infos)
+		console.log(requester_facebook_infos)
+
+		//Verfügbare Daten:
+
+		//Requester: 
+		//requester_facebook_infos
+		//request
+
+		//room
+		//room.facebook_infos
+
+
+		var room_facebook_infos  = JSON.parse(room.facebookInfo);
+
+		var numberCommonLikes = 0
+		var numberCommonBio = 0
+		var numberCommonFriends = 0
+		//var numberCommonEvents = 0
+
+		//console.log("\n\n\nLikes:")
+		//console.log(requester_facebook_infos.likes)
+		request_likes = [];
+		requester_facebook_infos.likes.forEach(function(like){
+			request_likes.push(like.id)
+		});
+		//console.log(request_likes)
+
+		//console.log("\n\n\nBio:")
+		//console.log(requester_facebook_infos.profile)
+		if(requester_facebook_infos.profile.hometown.id == room_facebook_infos.profile.hometown.id){
+			console.log("hometown match")
+			numberCommonBio += 1
+		}
+
+		
+
+		reqsports = requester_facebook_infos.profile.sports
+		roomsports = room_facebook_infos.profile.sports
+		common_sports = intersect(reqsports,roomsports)
+		if (common_sports > 0){
+			console.log("common sports:")
+			console.log(common_sports)
+			numberCommonBio += common_sports
+		}
+
+		reqSchoolIds = []
+		requester_facebook_infos.profile.education.forEach(function(elem){
+			reqSchoolId.push(elem.id)
+		});
+
+		roomSchoolIds = []
+		room_facebook_infos.profile.education.forEach(function(elem){
+			roomSchoolId.push(elem.id)
+		});
+
+		var commonSchools = intersect(reqSchoolIds,roomSchoolIds);
+		if (commonSchools > 0){
+			numberCommonBio += commonSchools
+			//TODO we could handle what exaclty was matched
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+		//return score
+
+
 
 	});
 }
 
 
+function intersect(arr1, arr2) {
+    var r = [], o = {}, l = arr2.length, i, v;
+    for (i = 0; i < l; i++) {
+        o[arr2[i]] = true;
+    }
+    l = arr1.length;
+    for (i = 0; i < l; i++) {
+        v = arr1[i];
+        if (v in o) {
+            r.push(v);
+        }
+    }
+    return r;
+}
 
-var get_facebook_data = function(AccessToken, cb){
 
+
+var get_facebook_data = function(facebookToken, cb){
+	console.log(facebookToken)
 	var facebook_infos = {};
 	var FB = require('fb');
-	FB.setAccessToken('EAAYrGhhGgZAoBAMLWBtqE5HfzWOUEkx8Kwg5AJhZAxmRFf1LOZBOcZCG17Jtb6kYzZCDZAEoZCRLiTxu9MOqy7ZAAZCBTEVm8GZBJBSxQCyZAt1cg2icus4HHWcwpmHPUSqJm4crfxcTOIfagb8rdo2CBjvoPZAPLYpbDTsa7yS4WvZCgwLNWZAZBQ3lYKtGRjZCUt9k5SS313TyFkECHZAAbpQHzV6VPxZC3uCiD9JzBOjc7efxOBCwZDZD');
+	FB.setAccessToken(facebookToken);
 	FB.api('me/friends', function (friend_res) {  
 	if(!friend_res || friend_res.error) {
 	   console.log(!friend_res ? 'error occurred' : friend_res.error);
 	   
 	  }
 
-  		console.log(friend_res.data);
+  		//console.log(friend_res.data);
   		facebook_infos.friends = friend_res.data;
   		//console.log("\n\n\n\n")
 
@@ -83,7 +170,7 @@ var get_facebook_data = function(AccessToken, cb){
 			  
 			}
 
-	  		console.log(like_res.data);
+	  		//console.log(like_res.data);
 	  		facebook_infos.likes = like_res.data;
 	  		//console.log("\n\n\n\n")
 
@@ -93,11 +180,11 @@ var get_facebook_data = function(AccessToken, cb){
 					   
 				}
 
-		  		console.log(profile_res);
+		  		//console.log(profile_res);
 		  		facebook_infos.profile = profile_res;
-		  		console.log("\n\n\n\n")
+		  		//console.log("\n\n\n\n")
 
-		  		console.log(facebook_infos)
+		  		//console.log(facebook_infos)
 
 		  		cb(facebook_infos)
 
