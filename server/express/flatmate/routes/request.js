@@ -1,11 +1,19 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+require("../jobs/matching").matching;
 
 
 //import mongoose models
 var User = mongoose.model('User');
 var Request = mongoose.model('Request');
+
+
+
+
+
+
+
 
 // GET all Requests
 router.get('/request', function(req, res) {
@@ -22,7 +30,9 @@ router.get('/request', function(req, res) {
     });
 
 //POST new Request
-router.post('/user/:user_id/request', function(req, res) {
+//Input: roomSize, maxPrice, tags  as json || auth token in header || user_id as param
+//Output: user
+router.post('/user/:user_id/request', auth, function(req, res) {
 
     User.findById(req.params.user_id, function(err, user) {
         if(err){
@@ -57,7 +67,9 @@ router.post('/user/:user_id/request', function(req, res) {
 
 
 //GET single request 
-router.get('/user/:user_id/request/request/:request_id', function(req, res) {
+//Input: auth token in header || user_id, request_id as param
+//Output: request
+router.get('/user/:user_id/request/request/:request_id', auth, function(req, res) {
     Request.findById(req.params.request_id, function(err, request) {
         if(err){
             return res.json(err);
@@ -69,8 +81,10 @@ router.get('/user/:user_id/request/request/:request_id', function(req, res) {
 });
 
 
-//PUT single request 
-router.put('/user/:user_id/request/:request_id', function(req, res) {
+//PUT single request
+//Input: roomSize, maxPrice, tags as Json || auth token in header || user_id, request_id as param 
+//Output: request
+router.put('/user/:user_id/request/:request_id', auth, function(req, res) {
     Request.findById(req.params.request_id, function(err, request) {
         if(err){
             return res.json(err);
@@ -91,22 +105,23 @@ router.put('/user/:user_id/request/:request_id', function(req, res) {
 });
 
 
-//DELETE single request 
-router.get('/user/:user_id/request/request/:request_id', function(req, res) {
-    Request.findById(req.params.request_id, function(err, request) {
-        if(err){
-            return res.json(err);
-        }
+//DELETE single request
+//Input: auth token in header || user_id, request_id as param  
+// router.get('/user/:user_id/request/request/:request_id', function(req, res) {
+//     Request.findById(req.params.request_id, function(err, request) {
+//         if(err){
+//             return res.json(err);
+//         }
 
-        request.remove(function(err, request) {
-            if(err){
-                return res.json(err);
-            }
+//         request.remove(function(err, request) {
+//             if(err){
+//                 return res.json(err);
+//             }
 
-            return res.json({"request": request});
-        });
-    });
-});
+//             return res.json({"request": request});
+//         });
+//     });
+// });
 
 
 module.exports = router;

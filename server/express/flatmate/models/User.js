@@ -1,9 +1,24 @@
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 
+
+
+
+/*
+User Description:
+A User is either of type "landlord" or a "searcher". A landlord provides a room and a searcher searches for a room.
+Holds either one instance of "Room" ("./Room.js") or one instance of Request ("./Request.js") depending on his type.
+Login is done via Facebook: Client sends a Facebook access token which is verified on this server. 
+Name, images, facebook id are then retrieved from facebook
+*/
+
+
+
+
+
 var UserSchema = new mongoose.Schema({
     username: String,
-    facebookId: { type: String, unique: true }, // The users facebook_id
+    facebookId: { type: String, unique: true }, // The users unique facebook_id
     userImgUrls: [String],
     type: String, 
     requestId: {type: mongoose.Schema.Types.ObjectId, ref: 'Request'},

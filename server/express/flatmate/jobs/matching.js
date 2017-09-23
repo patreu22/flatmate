@@ -2,12 +2,15 @@
 var mongoose = require('mongoose'); 
 mongoose.connect('mongodb://localhost/flatmate', { useMongoClient: true, promiseLibrary: global.Promise });
 
+
+
+
+
+// Require mongoose models
 require("../models/Request");
 var Request = mongoose.model("Request");
-
 require("../models/Room");
 var Room = mongoose.model("Room");
-
 require("../models/User");
 var User = mongoose.model("User");
 
@@ -19,10 +22,6 @@ var User = mongoose.model("User");
 //request params
 //landlord facebook id
 //Room params
-
-
-
-
 var matching = function(request, requester_access_token){
 	console.log({ "request" : request} );
 
@@ -42,6 +41,8 @@ var matching = function(request, requester_access_token){
 
 exports.matching=matching;
 
+
+
  
 
 var matching_score = function(request, room, requester_access_token){
@@ -51,7 +52,8 @@ var matching_score = function(request, room, requester_access_token){
 
 	get_facebook_data(requester_access_token,function(requester_facebook_infos){
 		console.log("got facebook infos")
-		console.log(requester_facebook_infos)
+		//console.log(requester_facebook_infos)
+		//console.log(JSON.stringify(requester_facebook_infos))
 
 		//Verfügbare Daten:
 
@@ -62,9 +64,9 @@ var matching_score = function(request, room, requester_access_token){
 		//room
 		//room.facebook_infos
 
-
+		
 		var room_facebook_infos  = JSON.parse(room.facebookInfo);
-
+		//console.log(room_facebook_infos)
 		var numberCommonLikes = 0
 		var numberCommonBio = 0
 		var numberCommonFriends = 0
@@ -72,47 +74,112 @@ var matching_score = function(request, room, requester_access_token){
 
 		//console.log("\n\n\nLikes:")
 		//console.log(requester_facebook_infos.likes)
-		request_likes = [];
+
+
+		//likes
+		var request_likes = [];
 		requester_facebook_infos.likes.forEach(function(like){
 			request_likes.push(like.id)
 		});
+
+		var room_likes = []
+		room_facebook_infos.likes.forEach(function(like){
+			room_likes.push(like.id)
+		});
+
+		console.log(requester_facebook_infos.likes)
+		console.log(room_facebook_infos.likes)
+
+		if(request_likes!=null&room_likes!=null){
+			var numberCommonLikes = intersect(request_likes,room_likes).length
+			if (numberCommonLikes > 0){
+				console.log("common likes!");
+			}
+		}
+
+		//friends
+		var request_friends = [];
+		requester_facebook_infos.friends.forEach(function(friend){
+			request_friends.push(friend.id)
+		});
+
+		var room_friends = []
+		room_facebook_infos.friends.forEach(function(friend){
+			room_friends.push(friend.id)
+		});
+
+		console.log(request_friends)
+		console.log(room_friends)
+
+		if(request_friends != null & room_friends != null){
+			var numberCommonFriends = intersect(request_friends,room_friends).length
+			if (numberCommonFriends > 0){
+				console.log("common friends!");
+			}
+		}
+
+
 		//console.log(request_likes)
 
 		//console.log("\n\n\nBio:")
 		//console.log(requester_facebook_infos.profile)
 		if(requester_facebook_infos.profile.hometown.id == room_facebook_infos.profile.hometown.id){
 			console.log("hometown match")
+			console.log(requester_facebook_infos.profile.hometown)
+			console.log(room_facebook_infos.profile.hometown)
 			numberCommonBio += 1
 		}
 
 		
-
+		//sports
 		reqsports = requester_facebook_infos.profile.sports
 		roomsports = room_facebook_infos.profile.sports
-		common_sports = intersect(reqsports,roomsports)
-		if (common_sports > 0){
-			console.log("common sports:")
-			console.log(common_sports)
-			numberCommonBio += common_sports
+		console.log(requester_facebook_infos.profile.sports)
+		console.log(room_facebook_infos.profile.sports)
+
+		if (reqsports != null & roomsports != null){
+			common_sports = intersect(reqsports,roomsports).length
+			if (common_sports > 0){
+				console.log("common sports:")
+				console.log(common_sports)
+				numberCommonBio += common_sports.length
+			}
 		}
 
-		reqSchoolIds = []
+
+		//schools
+		var reqSchoolIds = []
 		requester_facebook_infos.profile.education.forEach(function(elem){
-			reqSchoolId.push(elem.id)
+			reqSchoolIds.push(elem.id)
 		});
 
-		roomSchoolIds = []
+		var roomSchoolIds = []
 		room_facebook_infos.profile.education.forEach(function(elem){
-			roomSchoolId.push(elem.id)
+			roomSchoolIds.push(elem.id)
 		});
 
-		var commonSchools = intersect(reqSchoolIds,roomSchoolIds);
-		if (commonSchools > 0){
-			numberCommonBio += commonSchools
-			//TODO we could handle what exaclty was matched
+		if (reqSchoolIds != null & roomSchoolIds != null){
+			var commonSchools = intersect(reqSchoolIds,roomSchoolIds);
+			if (commonSchools > 0){
+				console.log('common school!')
+				numberCommonBio += commonSchools.length
+				//TODO we could handle what exaclty was matched
+			}
 		}
 
+		console.log( "finished matching score")
+		//console.log(numberCommonBio)
+		
+		//console.log(numberCommonLikes)
+		//console.log(numberCommonFriends)
 
+		var score = numberCommonBio + numberCommonLikes + numberCommonFriends
+
+
+
+
+
+		console.log(score)
 
 
 
@@ -150,11 +217,11 @@ function intersect(arr1, arr2) {
 
 
 var get_facebook_data = function(facebookToken, cb){
-	console.log(facebookToken)
+	//console.log(facebookToken)
 	var facebook_infos = {};
 	var FB = require('fb');
 	FB.setAccessToken(facebookToken);
-	FB.api('me/friends', function (friend_res) {  
+	FB.api('me/friends?limit=1000', function (friend_res) {  
 	if(!friend_res || friend_res.error) {
 	   console.log(!friend_res ? 'error occurred' : friend_res.error);
 	   
@@ -164,7 +231,7 @@ var get_facebook_data = function(facebookToken, cb){
   		facebook_infos.friends = friend_res.data;
   		//console.log("\n\n\n\n")
 
-  		FB.api('me/likes', function (like_res) {  
+  		FB.api('me/likes?limit=1000', function (like_res) {  
 			if(!like_res || like_res.error) {
 			   console.log(!like_res ? 'error occurred' : like_res.error);
 			  
@@ -180,9 +247,9 @@ var get_facebook_data = function(facebookToken, cb){
 					   
 				}
 
-		  		//console.log(profile_res);
+		  		console.log(profile_res);
 		  		facebook_infos.profile = profile_res;
-		  		//console.log("\n\n\n\n")
+		  		console.log("successfully got the facebook stuff")
 
 		  		//console.log(facebook_infos)
 
@@ -198,3 +265,5 @@ var get_facebook_data = function(facebookToken, cb){
 	});
 
 }
+
+exports.get_facebook_data = get_facebook_data;
