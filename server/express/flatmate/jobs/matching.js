@@ -2,12 +2,15 @@
 var mongoose = require('mongoose'); 
 mongoose.connect('mongodb://localhost/flatmate', { useMongoClient: true, promiseLibrary: global.Promise });
 
+
+
+
+
+// Require mongoose models
 require("../models/Request");
 var Request = mongoose.model("Request");
-
 require("../models/Room");
 var Room = mongoose.model("Room");
-
 require("../models/User");
 var User = mongoose.model("User");
 
@@ -19,10 +22,6 @@ var User = mongoose.model("User");
 //request params
 //landlord facebook id
 //Room params
-
-
-
-
 var matching = function(request, requester_access_token){
 	console.log({ "request" : request} );
 
@@ -41,6 +40,8 @@ var matching = function(request, requester_access_token){
 }
 
 exports.matching=matching;
+
+
 
  
 
@@ -61,7 +62,8 @@ var matching_score = function(request, room, requester_access_token){
 }
 
 
-
+// adds a users Facebook info to a room
+//Input: facebookToken, callback function
 var get_facebook_data = function(AccessToken, cb){
 
 	var facebook_infos = {};
@@ -111,3 +113,5 @@ var get_facebook_data = function(AccessToken, cb){
 	});
 
 }
+
+exports.get_facebook_data = get_facebook_data;
