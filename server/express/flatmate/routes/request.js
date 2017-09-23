@@ -62,6 +62,11 @@ router.post('/user/:user_id/request', auth, function(req, res) {
                     return res.json(err);
                 }
 
+                matching(request, req.payload.facebookToken,function(score){
+                    console.log("matching score is" + score)
+
+                });
+
                 return res.json({"user": user});
             });
         });

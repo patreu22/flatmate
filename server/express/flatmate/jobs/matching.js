@@ -22,21 +22,21 @@ var User = mongoose.model("User");
 //request params
 //landlord facebook id
 //Room params
-var matching = function(request, requester_access_token){
+var matching = function(request, requester_access_token, request_callback){
 	console.log({ "request" : request} );
+	get_facebook_data(requester_access_token,function(requester_facebook_infos){
 
-
-  Room.find(function(err, rooms) {
-  	  //console.log("rooms:")
-      //console.log(rooms); 
-      matching_score(request,rooms[0],requester_access_token);
-      //rooms.forEach(function(room){
-      //	matching_score(request,room);
-      //});
-     
-      
-   });
-
+	  Room.find(function(err, rooms) {
+	  	  //console.log("rooms:")
+	      //console.log(rooms); 
+	      matching_score(request,rooms[0],requester_access_token, request_callback, requester_facebook_infos);
+	      //rooms.forEach(function(room){
+	      //	matching_score(request,room);
+	      //});
+	     
+	      
+	   });
+	 });
 }
 
 exports.matching=matching;
@@ -45,12 +45,12 @@ exports.matching=matching;
 
  
 
-var matching_score = function(request, room, requester_access_token){
+var matching_score = function(request, room, requester_access_token, request_callback, requester_facebook_infos){
 	//console.log("\n pair:")
 	//console.log(request.userInfo.facebookId)
 	//console.log(room.userInfo.facebookId)
 
-	get_facebook_data(requester_access_token,function(requester_facebook_infos){
+	
 		console.log("got facebook infos")
 		//console.log(requester_facebook_infos)
 		console.log(JSON.stringify(requester_facebook_infos))
@@ -181,6 +181,7 @@ var matching_score = function(request, room, requester_access_token){
 
 
 		console.log(score)
+		request_callback(score)
 
 
 
@@ -196,7 +197,7 @@ var matching_score = function(request, room, requester_access_token){
 
 
 
-	});
+	
 }
 
 
