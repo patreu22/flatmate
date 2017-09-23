@@ -20,8 +20,9 @@ require("./models/Match");
 var app = express();
 
 //require routes
-var index = require('./routes/index');
 var users = require('./routes/users');
+var request = require('./routes/request');
+var room = require('./routes/room');
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -35,8 +36,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/user', users);
+app.use('/', users);
+app.use('/', request);
+app.use('/', room);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

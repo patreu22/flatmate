@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
     username: String,
-    facebook_id: String, // The users facebook_id
-    user_img_urls: [String],
+    facebookId: String, // The users facebook_id
+    userImgUrls: [String],
     type: String, 
-    request_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Request'},
-    room_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Room'},
+    requestId: {type: mongoose.Schema.Types.ObjectId, ref: 'Request'},
+    roomId: {type: mongoose.Schema.Types.ObjectId, ref: 'Room'},
     flatmates: [String] // facebook-id of your flatmates
 });
 

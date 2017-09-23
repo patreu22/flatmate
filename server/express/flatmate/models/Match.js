@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var MatchSchema = new mongoose.Schema({
-    request_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Request'},
-    room_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Room'},
+    requestId: {type: mongoose.Schema.Types.ObjectId, ref: 'Request'},
+    roomId: {type: mongoose.Schema.Types.ObjectId, ref: 'Room'},
     score: Number
 });
 

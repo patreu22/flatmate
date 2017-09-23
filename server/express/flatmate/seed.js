@@ -42,11 +42,11 @@ var data = [
         'documents': [
             {
                 'size': 30,
-                'max_prize': 200
+                'maxPrize': 200
             },
             {
                 'size': 20,
-                'max_prize': 400
+                'maxPrize': 400
             }
         ]
 

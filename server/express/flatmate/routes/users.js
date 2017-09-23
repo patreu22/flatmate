@@ -8,7 +8,7 @@ var User = mongoose.model('User');
 
 
 // GET all Users
-router.get('/', function(req, res) {
+router.get('/user', function(req, res) {
 
   User.find(function(err, users){
     if(err){
@@ -23,12 +23,12 @@ router.get('/', function(req, res) {
 
 
 // POST new User
-router.post('/', function(req, res) {
+router.post('/user', function(req, res) {
 
   var user = new User();
   user.username = req.body.username;
-  user.facebook_id = req.body.facebook_id;
-  user.user_img_urls = req.body.user_img_urls;
+  user.facebookId = req.body.facebookId;
+  user.userImgUrls = req.body.userImgUrls;
   user.type = req.body.type;
   user.flatmates = req.body.flatmates;
 
@@ -44,7 +44,7 @@ router.post('/', function(req, res) {
 
 
 //GET User by id
-router.get('/:user_id', function(req, res) {
+router.get('/user/:user_id', function(req, res) {
   
   User.findOne(req.params.user_id, function(err, user){
     if(err){
@@ -59,7 +59,7 @@ router.get('/:user_id', function(req, res) {
 
 
 //PUT User by id
-router.put('/:user_id', function(req, res) {
+router.put('/user/:user_id', function(req, res) {
 
   User.findOne(req.params.user_id, function(err, user){
     if(err){
@@ -67,8 +67,8 @@ router.put('/:user_id', function(req, res) {
     }
 
     user.username = req.body.username;
-    user.facebook_id = req.body.facebook_id;
-    user.user_img_urls = req.body.user_img_urls;
+    user.facebookId = req.body.facebook_id;
+    user.userImgUrls = req.body.userImg_Uls;
     user.type = req.body.type;
     user.flatmates = req.body.flatmates;
 
@@ -84,7 +84,7 @@ router.put('/:user_id', function(req, res) {
 
 
 //DELETE User by id
-router.delete('/:user_id', function(req, res) {
+router.delete('/user/:user_id', function(req, res) {
   
   User.remove(req.params.user_id, function(err, user){
     if(err){
