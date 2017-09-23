@@ -53,7 +53,7 @@ var matching_score = function(request, room, requester_access_token){
 	get_facebook_data(requester_access_token,function(requester_facebook_infos){
 		console.log("got facebook infos")
 		//console.log(requester_facebook_infos)
-		//console.log(JSON.stringify(requester_facebook_infos))
+		console.log(JSON.stringify(requester_facebook_infos))
 
 		//Verfügbare Daten:
 
@@ -87,13 +87,14 @@ var matching_score = function(request, room, requester_access_token){
 			room_likes.push(like.id)
 		});
 
-		console.log(requester_facebook_infos.likes)
-		console.log(room_facebook_infos.likes)
+		console.log(requester_facebook_infos.likes.length)
+		console.log(room_facebook_infos.likes.length)
 
 		if(request_likes!=null&room_likes!=null){
 			var numberCommonLikes = intersect(request_likes,room_likes).length
 			if (numberCommonLikes > 0){
 				console.log("common likes!");
+				console.log(numberCommonLikes)
 			}
 		}
 
@@ -108,8 +109,8 @@ var matching_score = function(request, room, requester_access_token){
 			room_friends.push(friend.id)
 		});
 
-		console.log(request_friends)
-		console.log(room_friends)
+		//console.log(request_friends)
+		//console.log(room_friends)
 
 		if(request_friends != null & room_friends != null){
 			var numberCommonFriends = intersect(request_friends,room_friends).length
@@ -173,7 +174,7 @@ var matching_score = function(request, room, requester_access_token){
 		//console.log(numberCommonLikes)
 		//console.log(numberCommonFriends)
 
-		var score = numberCommonBio + numberCommonLikes + numberCommonFriends
+		var score = numberCommonBio + 0.1 *numberCommonLikes + 3*numberCommonFriends
 
 
 
@@ -216,53 +217,136 @@ function intersect(arr1, arr2) {
 
 
 
-var get_facebook_data = function(facebookToken, cb){
-	//console.log(facebookToken)
-	var facebook_infos = {};
-	var FB = require('fb');
-	FB.setAccessToken(facebookToken);
-	FB.api('me/friends?limit=1000', function (friend_res) {  
-	if(!friend_res || friend_res.error) {
-	   console.log(!friend_res ? 'error occurred' : friend_res.error);
-	   
+var requests_finished = {}
+
+
+var check_if_all_finished = function(facebook_infos,cb){
+	console.log(cb)
+	if (requests_finished.likes & requests_finished.friends & requests_finished.bio){
+		console.log("requests fininshed")
+		console.log(cb)
+		callbackOfShame(facebook_infos)
+	}
+	else{
+		console.log("not yet finished")
+	}
+
+}
+
+
+var callbackOfShame = {}
+
+var load_likes = function(facebook_infos, FB, after_cursor,cb){
+
+	console.log('me/likes?after='+after_cursor)
+	FB.api('me/likes?after='+after_cursor, function (like_res) {  
+		if(!like_res || like_res.error) {
+		   console.log(!like_res ? 'error occurred' : like_res.error);
 	  }
+	  like_res.data.forEach(function(elem){
+	  	facebook_infos.likes.push(elem);
 
-  		//console.log(friend_res.data);
-  		facebook_infos.friends = friend_res.data;
-  		//console.log("\n\n\n\n")
+	  });
 
-  		FB.api('me/likes?limit=1000', function (like_res) {  
-			if(!like_res || like_res.error) {
-			   console.log(!like_res ? 'error occurred' : like_res.error);
-			  
-			}
+	  console.log("length of likes array:"+facebook_infos.likes.length)
 
-	  		//console.log(like_res.data);
-	  		facebook_infos.likes = like_res.data;
-	  		//console.log("\n\n\n\n")
+	  if(like_res.paging.next != null){
+  			console.log("next likes page to fetch")
+  			after_cursor = like_res.paging.cursors.after
+  			console.log(after_cursor)
+  			load_likes(facebook_infos,FB,after_cursor)
 
-	  		FB.api('me?fields=location,work,hometown,sports,education', function (profile_res) {  
-				if(!profile_res || profile_res.error) {
-					   console.log(!profile_res ? 'error occurred' : profile_res.error);
-					   
-				}
-
-		  		console.log(profile_res);
-		  		facebook_infos.profile = profile_res;
-		  		console.log("successfully got the facebook stuff")
-
-		  		//console.log(facebook_infos)
-
-		  		cb(facebook_infos)
-
-
-			});
-
-
-		});
+  		}
+  	else{
+  		requests_finished.likes = true
+  		console.log("recurvsive likes loop stopped.")
+  		check_if_all_finished(facebook_infos,cb)
+  	}
 
 
 	});
+
+}
+
+
+
+
+var get_facebook_data = function(facebookToken, cb){
+	callbackOfShame = cb
+	requests_finished = { "likes":false,"friends":false,"bio":false}
+	var facebook_infos = {};
+	var FB = require('fb');
+	FB.setAccessToken(facebookToken);
+	FB.api('me/friends', function (friend_res) {  
+		if(!friend_res || friend_res.error) {
+		   console.log(!friend_res ? 'error occurred' : friend_res.error);
+		   
+	  }
+
+  		//console.log(friend_res);
+  		facebook_infos.friends = friend_res.data;
+
+  		if(friend_res.paging.next != null){
+  			console.log("next friends page to fetch")
+  			
+  		}
+  		else{
+  			requests_finished.friends = true
+  			
+  			check_if_all_finished(facebook_infos,cb)
+  		}
+  		//console.log("\n\n\n\n")
+  	});
+
+	FB.api('me/likes', function (like_res) {  
+		if(!like_res || like_res.error) {
+		   console.log(!like_res ? 'error occurred' : like_res.error);
+		  
+		}
+
+		//console.log(like_res);
+		facebook_infos.likes = like_res.data;
+		if (like_res.paging.next != null){
+			
+			console.log("next likes page to fetch")
+  		after_cursor = like_res.paging.cursors.after
+
+  		load_likes(facebook_infos,FB,after_cursor,cb)
+		}
+		else{
+			requests_finished.likes = true
+			check_if_all_finished(facebook_infos,cb)
+		}
+
+
+		console.log("\n\n\n\n")
+	});
+
+
+	FB.api('me?fields=location,work,hometown,sports,education', function (profile_res) {  
+		if(!profile_res || profile_res.error) {
+			   console.log(!profile_res ? 'error occurred' : profile_res.error);
+			   
+		}
+
+		console.log(profile_res);
+		facebook_infos.profile = profile_res;
+		console.log("successfully got the bio stuff")
+		requests_finished.bio = true
+		check_if_all_finished(facebook_infos,cb)
+
+		//console.log(facebook_infos)
+	});
+		  		//cb(facebook_infos)
+
+
+			
+
+
+		
+
+
+	
 
 }
 
