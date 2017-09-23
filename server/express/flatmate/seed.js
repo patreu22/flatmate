@@ -36,6 +36,7 @@ var data = [
                 'size': 20,
                 'prize': 400,
                 'facebookId':1548402911883944
+
             }
         ],
     },{
@@ -51,6 +52,7 @@ var data = [
                 'size': 20,
                 'maxPrize': 400,
                 'facebookId': 422204231293534
+
             }
         ]
 

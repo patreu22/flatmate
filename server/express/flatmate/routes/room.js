@@ -32,7 +32,7 @@ router.post('/user/:user_id/room', function(req, res) {
 
         var room = new Room();
         room.roomSize = req.body.roomSize;
-        room.maxPrice = req.body.maxPrice;
+        room.price = req.body.price;
         room.tags = req.body.tags;
         room.userInfo.uesrImgUrls = user.userImgUrls;
         room.userInfo.userId = user._id;
@@ -78,7 +78,7 @@ router.put('/user/:user_id/room/:room_id', function(req, res) {
         }
 
         room.roomSize = req.body.roomSize;
-        room.maxPrize = req.body.maxPrice;
+        room.prize = req.body.price;
         room.tags = req.body.tags;
 
         room.save(function(err, room) {
