@@ -15,7 +15,7 @@ router.get('/request', function(req, res) {
           return res.status(400).json(err);
         }
     
-        return res.status(200).json(requests);
+        return res.status(200).json({"requests": requests});
         
       });
     
@@ -49,7 +49,7 @@ router.post('/user/:user_id/request', function(req, res) {
                     return res.json(err);
                 }
 
-                return res.json(user);
+                return res.json({"user": user});
             });
         });
     });
@@ -63,7 +63,7 @@ router.get('/user/:user_id/request/request/:request_id', function(req, res) {
             return res.json(err);
         }
 
-        return res.json(request);
+        return res.json({"request": request});
 
     });
 });
@@ -85,7 +85,7 @@ router.put('/user/:user_id/request/:request_id', function(req, res) {
                 return res.json(err);
             }
 
-            return res.json(request);
+            return res.json({"request": request});
         });
     });
 });
@@ -103,7 +103,7 @@ router.get('/user/:user_id/request/request/:request_id', function(req, res) {
                 return res.json(err);
             }
 
-            return res.json(request);
+            return res.json({"request": request});
         });
     });
 });
