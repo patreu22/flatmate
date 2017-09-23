@@ -15,19 +15,27 @@ class AppCoordinator {
     private var navigationController: UINavigationController
     private var currentViewController: UIViewController?
     
-    init(window: UIWindow?, navigationController: UINavigationController) {
+    init(window: UIWindow?) {
         self.window = window
-        self.navigationController = navigationController
+        self.navigationController = UINavigationController()
     }
     
     func start(){
         let vc = LoginViewController()
+        
+        vc.actions.didLoginSuccessfully = { [weak self] in
+            self?.showUserMainScreen()
+        }
+    
         currentViewController = vc
         navigationController = UINavigationController(rootViewController: vc)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
+    private func showUserMainScreen(){
+        
+    }
     
     private func pushAndMakeCurrent(_ viewController: UIViewController, animated: Bool = true) {
         currentViewController = viewController

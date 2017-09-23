@@ -1,0 +1,6 @@
+framework module Pods_Flatmate {
+  umbrella header "Pods-Flatmate-umbrella.h"
+
+  export *
+  module * { export * }
+}
