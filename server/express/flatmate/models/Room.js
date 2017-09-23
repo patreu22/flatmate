@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var RoomSchema = new mongoose.Schema({
     roomSize: Number,
-    maxPrice: Number,
+    price: Number,
     roomImgUrls:[String],
     likes: [String],
     tags: [String],

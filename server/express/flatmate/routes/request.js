@@ -7,7 +7,19 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Request = mongoose.model('Request');
 
-
+// GET all Requests
+router.get('/request', function(req, res) {
+    
+      Request.find(function(err, requests){
+        if(err){
+          return res.status(400).json(err);
+        }
+    
+        return res.status(200).json(requests);
+        
+      });
+    
+    });
 
 //POST new Request
 router.post('/user/:user_id/request', function(req, res) {

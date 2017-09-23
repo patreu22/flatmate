@@ -86,12 +86,19 @@ router.put('/user/:user_id', function(req, res) {
 //DELETE User by id
 router.delete('/user/:user_id', function(req, res) {
   
-  User.remove(req.params.user_id, function(err, user){
+  User.findById(req.params.user_id, function(err, user){
     if(err){
       return res.status(400).json(err);
     }
-    return res.status(200).json(user);
-  });  
+
+    user.remove(function(err, user) {
+      if(err){
+        return res.status(400).json(err);
+      }
+
+      return res.json(user);
+    });
+  });
 });
 
   
