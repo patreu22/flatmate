@@ -29,11 +29,11 @@ var data = [
         'documents': [
             {
                 'roomSize': 20,
-                'maxPrize': 400
+                'maxPrice': 400
             },
             {
                 'roomSize': 20,
-                'maxPrize': 400
+                'maxPrice': 400
             }
         ],
     },{
@@ -42,11 +42,11 @@ var data = [
         'documents': [
             {
                 'roomSize': 30,
-                'maxPrize': 200
+                'maxPrice': 200
             },
             {
                 'roomSize': 20,
-                'maxPrize': 400
+                'maxPrice': 400
             }
         ]
 
