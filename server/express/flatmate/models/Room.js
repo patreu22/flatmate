@@ -6,7 +6,6 @@ var RoomSchema = new mongoose.Schema({
     roomImgUrls:[String],
     likes: [String],
     tags: [String],
-    facebookId: String,
     userInfo: {
         userImgUrls: [String],
         userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},

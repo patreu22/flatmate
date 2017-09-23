@@ -16,7 +16,7 @@ router.get('/room', function(req, res) {
           return res.status(400).json(err);
         }
     
-        return res.status(200).json(rooms);
+        return res.status(200).json({"rooms": rooms});
         
       });
     
@@ -28,6 +28,17 @@ router.post('/user/:user_id/room', function(req, res) {
     User.findById(req.params.user_id, function(err, user) {
         if(err){
           return res.json(err);
+        }
+
+        if(user.roomId){
+            Room.findById(user.roomId,function(err, room) {
+                if(err){
+                    console.log(err);
+                }
+
+                room.remove();
+                user.roomId = "";
+            });
         }
 
         var room = new Room();
@@ -50,7 +61,7 @@ router.post('/user/:user_id/room', function(req, res) {
                     return res.json(err);
                 }
 
-                return res.json(user);
+                return res.json({"user": user});
             });
         });
     });
@@ -64,7 +75,7 @@ router.get('/user/:user_id/room/:room_id', function(req, res) {
             return res.json(err);
         }
 
-        return res.json(room);
+        return res.json({"room": room});
 
     });
 });
@@ -86,7 +97,7 @@ router.put('/user/:user_id/room/:room_id', function(req, res) {
                 return res.json(err);
             }
 
-            return res.json(room);
+            return res.json({"room": room});
         });
     });
 });
@@ -104,7 +115,7 @@ router.get('/user/:user_id/room/:room_id', function(req, res) {
                 return res.json(err);
             }
 
-            return res.json(room);
+            return res.json({"room": room});
         });
     });
 });

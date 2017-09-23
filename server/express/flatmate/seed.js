@@ -7,11 +7,12 @@ seeder.connect('mongodb://localhost/flatmate', function() {
     // Load Mongoose models 
     seeder.loadModels([
         'models/Room.js',
-        'models/Request.js'
+        'models/Request.js',
+        'models/User.js'
     ]);
  
     // Clear specified collections 
-    seeder.clearModels(['Room', 'Request'], function() {
+    seeder.clearModels(['Room', 'Request', 'User'], function() {
  
         // Callback to populate DB once collections have been cleared 
         seeder.populateModels(data, function() {
@@ -28,12 +29,28 @@ var data = [
         'model': 'Room',
         'documents': [
             {
-                'roomSize': 20,
-                'maxPrice': 400
+                "roomSize": 30,
+                "price": 200,
+                "tags": ["fuckyes", "weedyes", "alcoholyes"],
+                "userInfo":{
+                    "facebookId": "1844650538896345"
+                }
             },
             {
-                'roomSize': 20,
-                'maxPrice': 400
+                "roomSize": 40,
+                "price": 250,
+                "tags": ["fuckyes", "weedyes", "alcoholno"],
+                "userInfo":{
+                    "facebookId": "1844650538896345"
+                }
+            },
+            {
+                "roomSize": 33,
+                "price": 200,
+                "tags": ["caryes", "cellphoneno", "pornyes"],
+                "userInfo":{
+                    "facebookId": "1844650538896345"
+                }
             }
         ],
     },{
@@ -42,12 +59,21 @@ var data = [
         'documents': [
             {
                 'roomSize': 30,
-                'maxPrice': 200
+                'maxPrice': 200,
+                "tags": ["fuckyes","pornyes","weedyes"],
+                "userInfo": {
+                    "facebookId": "1844650538896345"
+                }
             },
             {
-                'roomSize': 20,
-                'maxPrice': 400
-            }
+                'roomSize': 33,
+                'maxPrice': 400,
+                "tags": ["caryes","cellphoneno","weedyes"],
+                "userInfo": {
+                    "facebookId": "850641068449846"
+                }
+            },
+
         ]
 
         
