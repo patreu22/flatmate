@@ -14,7 +14,6 @@ var RequestSchema = new mongoose.Schema({
     maxPrice: Number,
     tags:[String],
     userInfo: {
-        userImgUrls: [String],
         userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         facebookId: String
     }

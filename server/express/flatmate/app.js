@@ -5,10 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var multer = require('multer');
+
 
 //connect to "flatmate" mongoDB via mongoose
 mongoose.connect('mongodb://localhost/flatmate', { useMongoClient: true, promiseLibrary: global.Promise });
-
 
 
 //require mongoose models
@@ -18,6 +19,9 @@ require("./models/Request");
 require("./models/Match");
 
 var app = express();
+
+
+app.use(multer({ dest: './tmp/'}).single('img'));
 
 //require routes
 var users = require('./routes/users');
@@ -59,3 +63,6 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+

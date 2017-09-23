@@ -2,12 +2,19 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 require("../jobs/matching").get_facebook_data;
+var jwt = require('express-jwt');
+
+var fs = require('fs');
+var multer = require('multer');
 
 
 //import mongoose models
 var User = mongoose.model('User');
 var Room = mongoose.model('Room');
 
+
+//decodes JWT. add 'auth' as fucntion-param to all routes that need authentication
+var auth = jwt({secret: 'Secret', userProperty: 'payload'});
 
 // GET all Rooms
 router.get('/room', function(req, res) {
@@ -20,37 +27,44 @@ router.get('/room', function(req, res) {
         return res.status(200).json({"rooms": rooms});
         
       });
-    
-    });
+});
+
 
 //POST new Room
 //Input: user_id as param || auth token in Header || roomSize, price, tags as Json
 //Output: user
-router.post('/user/:user_id/room', auth, function(req, res) {
+router.post('/user/:user_id/room', function(req, res) {
 
     User.findById(req.params.user_id, function(err, user) {
         if(err){
           return res.json(err);
         }
 
-        if(user.roomId){
-            Room.findById(user.roomId,function(err, room) {
-                if(err){
-                    console.log(err);
-                }
+        // if(user.roomId){
+        //     Room.findById(user.roomId,function(err, room) {
+        //         if(err){
+        //             console.log(err);
+        //         }
 
-                room.remove();
-                user.roomId = "";
-            });
-        }
+        //         room.remove();
+        //         user.roomId = "";
+        //     });
+        // }
 
         var room = new Room();
         room.roomSize = req.body.roomSize;
         room.price = req.body.price;
         room.tags = req.body.tags;
-        room.userInfo.uesrImgUrls = user.userImgUrls;
         room.userInfo.userId = user._id;
         room.userInfo.facebookId = user.facebookId;
+
+
+        console.log(req.file.path)
+        room.roomImg.data = req.file.path;
+        room.roomImg.contentType = "img/jpg";
+        console.log(room);
+        
+        //TODO: add images of the room
 
         room.save(function(err, room) {
             if(err){
@@ -64,10 +78,11 @@ router.post('/user/:user_id/room', auth, function(req, res) {
                     return res.json(err);
                 }
 
-                addFacebookInfoToRoom(roomId, req.payload.facebookToken);
-                return res.json({"user": user});
+                // addFacebookInfoToRoom(roomId, req.payload.facebookToken);
+                return res.json({"room": room});
             });
         });
+        // res.send("9")
     });
 });
 

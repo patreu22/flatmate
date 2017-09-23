@@ -8,13 +8,17 @@ The landlords facebook info (likes, friends, tec.) is saved here to simplify mat
 */ 
 
 var RoomSchema = new mongoose.Schema({
+    roomImg: { 
+        data: Buffer, 
+        contentType: String 
+    },
     roomSize: Number,
     price: Number,
-    roomImgUrls:[String],
-    likes: [String],
-    tags: [String],
+    description: String, 
+    city: String,
+    district: String,
+    tags: [String], // exapmle: smoking ok, partying ok, dogs ok 
     userInfo: {
-        userImgUrls: [String],
         userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         facebookId: String
     },

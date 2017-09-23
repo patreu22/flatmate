@@ -11,7 +11,10 @@ var Request = mongoose.model('Request');
 
 
 
+var jwt = require('express-jwt');
 
+//decodes JWT. add 'auth' as fucntion-param to all routes that need authentication
+var auth = jwt({secret: 'Secret', userProperty: 'payload'});
 
 
 
