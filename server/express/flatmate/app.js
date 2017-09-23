@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var multer = require('multer');
 
 
 //connect to "flatmate" mongoDB via mongoose
@@ -21,7 +20,7 @@ require("./models/Match");
 var app = express();
 
 
-app.use(multer({ dest: './tmp/'}).single('img'));
+// app.use(multer({ dest: './tmp/'}).single('img'));
 
 //require routes
 var users = require('./routes/users');
@@ -38,7 +37,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 app.use('/', users);
 app.use('/', request);

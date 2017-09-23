@@ -13,6 +13,20 @@ var User = mongoose.model('User');
 var Room = mongoose.model('Room');
 
 
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+     cb(null, './uploads/');
+        },
+     filename: function (req, file, cb) {
+        var originalname = file.originalname;
+        var extension = originalname.split(".");
+        filename = Date.now() + '.' + extension[extension.length-1];
+        cb(null, filename);
+      }
+    });
+
+
 //decodes JWT. add 'auth' as fucntion-param to all routes that need authentication
 var auth = jwt({secret: 'Secret', userProperty: 'payload'});
 
@@ -33,7 +47,7 @@ router.get('/room', function(req, res) {
 //POST new Room
 //Input: user_id as param || auth token in Header || roomSize, price, tags as Json
 //Output: user
-router.post('/user/:user_id/room', function(req, res) {
+router.post('/user/:user_id/room', multer({storage: storage, dest: 'uploads/'}).single('upload'),function(req, res) {
 
     User.findById(req.params.user_id, function(err, user) {
         if(err){
@@ -57,13 +71,29 @@ router.post('/user/:user_id/room', function(req, res) {
         room.tags = req.body.tags;
         room.userInfo.userId = user._id;
         room.userInfo.facebookId = user.facebookId;
+        room.roomImg = req.file.path;
 
 
-        console.log(req.file.path)
-        room.roomImg.data = req.file.path;
-        room.roomImg.contentType = "img/jpg";
-        console.log(room);
-        
+        // room.roomImg.data = fs.readFileSync(req.file.path);
+        // room.roomImg.contentType = "img/jpg";
+        // var newImg = fs.readFileSync(req.file.path);   
+        // console.log(newImg);
+
+        // var encImg = newImg.toString('base64');
+        // console.log(encImg);
+
+        // room.roomImg.data = Buffer(encImg, 'base64');
+        // room.roomImg.data = req.file.mimetype;
+
+        console.log(room)
+
+        // var newItem = {
+        //     description: req.body.description,
+        //     contentType: req.file.mimetype,
+        //     size: req.file.size,
+        //     img: Buffer(encImg, 'base64')
+        //  };
+        //  console.log(newItem);
         //TODO: add images of the room
 
         room.save(function(err, room) {
