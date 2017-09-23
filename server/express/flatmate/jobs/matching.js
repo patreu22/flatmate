@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+
 var mongoose = require('mongoose'); 
+mongoose.connect('mongodb://localhost/flatmate', { useMongoClient: true, promiseLibrary: global.Promise });
 
 require("../models/Request");
 var Request = mongoose.model("Request");
+
 require("../models/Room");
 var Room = mongoose.model("Room");
 
@@ -21,24 +22,34 @@ var User = mongoose.model("User");
 
 
 
-var matching = function(request, request_face_id){
-console.log('hi');
-User.find(function(err, users){
-    if(err){
-    	console.log(users);
-      return res.status(400).json(err);
-    }
-    console.log(users);
-    return res.status(200).json(users);
-    
-  });
 
-}()
+var matching = function(request){
+	console.log({ "request" : request} );
 
 
+  Room.find(function(err, rooms) {
+  	  console.log("rooms:")
+      console.log(rooms); 
+      rooms.forEach(function(room){
+      	console.log(room.size);
+
+      	matching_score(request,room);
 
 
-var matching_score = function(request, room, request_face_id, landlord_face_id){
+      });
+     
+      
+   });
+
+}
+
+
+ 
+exports.matching=matching;
+
+var matching_score = function(request, room){
+	console.log(request.facebookId)
+	console.log(room.facebookId)
 
 
 

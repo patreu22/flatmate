@@ -1,4 +1,4 @@
- 
+
 var seeder = require('mongoose-seed');
  
 // Connect to MongoDB via Mongoose 
@@ -29,11 +29,13 @@ var data = [
         'documents': [
             {
                 'size': 20,
-                'prize': 400
+                'prize': 400,
+                'facebookId':1548402911883944
             },
             {
                 'size': 20,
-                'prize': 400
+                'prize': 400,
+                'facebookId':1548402911883944
             }
         ],
     },{
@@ -42,11 +44,13 @@ var data = [
         'documents': [
             {
                 'size': 30,
-                'maxPrize': 200
+                'maxPrize': 200,
+                'facebookId': 422204231293534
             },
             {
                 'size': 20,
-                'maxPrize': 400
+                'maxPrize': 400,
+                'facebookId': 422204231293534
             }
         ]
 
