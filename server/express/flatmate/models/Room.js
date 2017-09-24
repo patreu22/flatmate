@@ -13,6 +13,7 @@ var RoomSchema = new mongoose.Schema({
         contentType: String 
     },
     username: String,
+
     roomSize: Number,
     price: Number,
     description: String, 
