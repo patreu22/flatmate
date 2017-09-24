@@ -17,11 +17,11 @@ extension UIColor{
     }
 
     class var darkBlue: UIColor {
-        return UIColor(red: 116/255, green: 125/255, blue: 226/255, alpha: 1.0)
+        return UIColor(red: 43/255, green: 157/255, blue: 223/255, alpha: 1.0)
     }
     
     class var brightBlue: UIColor {
-        return UIColor(red: 116/255, green: 222/255, blue: 226/255, alpha: 1.0)
+        return UIColor(red: 116/255, green: 125/255, blue: 226/255, alpha: 1.0)
     }
     
     class var grayTintColor: UIColor {

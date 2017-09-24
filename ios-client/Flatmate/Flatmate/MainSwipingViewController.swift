@@ -27,6 +27,7 @@ class MainSwipingViewController: UIViewController, KolodaViewDelegate, KolodaVie
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
+        setGradientBackground()
     }
 
     override func didReceiveMemoryWarning() {
@@ -172,5 +173,17 @@ class MainSwipingViewController: UIViewController, KolodaViewDelegate, KolodaVie
         logo.centerHorizontally()
         
         return topBar
+    }
+    
+    private func setGradientBackground() {
+        let colorTop = UIColor.darkBlue.cgColor
+        let colorBottom = UIColor.brightBlue.cgColor
+        
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.colors = [colorTop, colorBottom]
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+        gradient.frame = CGRect(x: 0.0, y: 0.0, width: view.frame.size.width, height: view.frame.size.height)
+        view.layer.insertSublayer(gradient, at: 0)
     }
 }
