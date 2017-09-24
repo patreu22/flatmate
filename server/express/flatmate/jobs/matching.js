@@ -27,10 +27,11 @@ var matching = function(request, requester_access_token, request_callback){
 	get_facebook_data(requester_access_token,function(requester_facebook_infos){
 
 	  Room.find(function(err, rooms) {
-	  	  //console.log("rooms:")
-	      //console.log(rooms); 
+	  	  
 	      
 	      rooms.forEach(function(room){
+	      	console.log("room:")
+	      console.log(room._id); 
 	      	matching_score(request,rooms[0],requester_access_token, request_callback, requester_facebook_infos);
 	      });
 	     
@@ -46,14 +47,11 @@ exports.matching=matching;
  
 
 var matching_score = function(request, room, requester_access_token, request_callback, requester_facebook_infos){
-	//console.log("\n pair:")
-	//console.log(request.userInfo.facebookId)
-	//console.log(room.userInfo.facebookId)
 
-	
-		//console.log("got facebook infos")
-		//console.log(requester_facebook_infos)
-		//console.log(JSON.stringify(requester_facebook_infos))
+
+
+		//##############################
+		//The matching algorithm is implemented in this function
 
 		//Verfügbare Daten:
 
@@ -63,18 +61,13 @@ var matching_score = function(request, room, requester_access_token, request_cal
 
 		//room
 		//room.facebook_infos
-console.log()
+
 		
 		var room_facebook_infos  = JSON.parse(room.facebookInfo);
 		//console.log(room_facebook_infos)
 		var numberCommonLikes = 0
 		var numberCommonBio = 0
 		var numberCommonFriends = 0
-		//var numberCommonEvents = 0
-
-		//console.log("\n\n\nLikes:")
-		//console.log(requester_facebook_infos.likes)
-
 
 		//likes
 		var request_likes = [];
@@ -108,10 +101,6 @@ console.log()
 		room_facebook_infos.friends.forEach(function(friend){
 			room_friends.push(friend.id)
 		});
-
-		//console.log(request_friends)
-		//console.log(room_friends)
-
 		if(request_friends != null & room_friends != null){
 			var numberCommonFriends = intersect(request_friends,room_friends).length
 			if (numberCommonFriends > 0){
@@ -120,10 +109,7 @@ console.log()
 		}
 
 
-		//console.log(request_likes)
-
-		//console.log("\n\n\nBio:")
-		//console.log(requester_facebook_infos.profile)
+		//hometown
 		if(requester_facebook_infos.profile.hometown.id == room_facebook_infos.profile.hometown.id){
 			console.log("hometown match")
 			console.log(requester_facebook_infos.profile.hometown)
@@ -180,28 +166,9 @@ console.log()
 		console.log(numberCommonFriends)
 
 		var score = numberCommonBio + 0.1 *numberCommonLikes + 3*numberCommonFriends
-
-
-
-
-
+		console.log("matching is done")
 		console.log(score)
 		request_callback(score,room)
-
-
-
-
-
-
-
-
-
-
-
-		//return score
-
-
-
 	
 }
 
@@ -239,9 +206,12 @@ var check_if_all_finished = function(facebook_infos,cb){
 
 }
 
-
+//globals? who is even using that?
 var callbackOfShame = {}
 
+
+
+//this recursive function loads through the pagination of the likes of the user
 var load_likes = function(facebook_infos, FB, after_cursor,cb){
 
 	console.log('me/likes?after='+after_cursor)
@@ -276,56 +246,49 @@ var load_likes = function(facebook_infos, FB, after_cursor,cb){
 
 
 
-
+//this data gets all the facebook data we are interested in: likes, friends, and the interesting parts of the biography
 var get_facebook_data = function(facebookToken, cb){
 	callbackOfShame = cb
 	requests_finished = { "likes":false,"friends":false,"bio":false}
 	var facebook_infos = {};
 	var FB = require('fb');
 	FB.setAccessToken(facebookToken);
+
+
 	FB.api('me/friends', function (friend_res) {  
 		if(!friend_res || friend_res.error) {
 		   console.log(!friend_res ? 'error occurred' : friend_res.error);
 		   
 	  }
-
-  		//console.log(friend_res);
   		facebook_infos.friends = friend_res.data;
 
   		if(friend_res.paging.next != null){
   			console.log("next friends page to fetch")
-  			
   		}
   		else{
   			requests_finished.friends = true
-  			
   			check_if_all_finished(facebook_infos,cb)
   		}
-  		//console.log("\n\n\n\n")
   	});
+
+
 
 	FB.api('me/likes', function (like_res) {  
 		if(!like_res || like_res.error) {
 		   console.log(!like_res ? 'error occurred' : like_res.error);
-		  
 		}
-
-		console.log(like_res);
+		//console.log(like_res);
 		facebook_infos.likes = like_res.data;
 		if (like_res.paging.next != null){
-			
 			console.log("next likes page to fetch")
   		after_cursor = like_res.paging.cursors.after
-
   		load_likes(facebook_infos,FB,after_cursor,cb)
 		}
 		else{
 			requests_finished.likes = true
 			check_if_all_finished(facebook_infos,cb)
 		}
-
-
-		console.log("\n\n\n\n")
+		
 	});
 
 
@@ -334,7 +297,6 @@ var get_facebook_data = function(facebookToken, cb){
 			   console.log(!profile_res ? 'error occurred' : profile_res.error);
 			   
 		}
-
 		console.log(profile_res);
 		facebook_infos.profile = profile_res;
 		console.log("successfully got the bio stuff")
@@ -343,17 +305,6 @@ var get_facebook_data = function(facebookToken, cb){
 
 		//console.log(facebook_infos)
 	});
-		  		//cb(facebook_infos)
-
-
-			
-
-
-		
-
-
-	
-
 }
 
 exports.get_facebook_data = get_facebook_data;

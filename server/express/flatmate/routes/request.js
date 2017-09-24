@@ -3,17 +3,10 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var matching = require("../jobs/matching").matching;
 
-
-
 var Match = mongoose.model('Match')
 
-
-//import mongoose models
 var User = mongoose.model('User');
 var Request = mongoose.model('Request');
-
-
-
 
 var jwt = require('express-jwt');
 
@@ -89,11 +82,9 @@ router.get('/matches',function(req,res){
 
 
 router.post('/demoRequest', function(req, res) {
-
+            Match.remove({})
 
             var facebookToken = req.body.facebookToken
-            //var facebookToken = "EAAYrGhhGgZAoBAEEOsNa1aG5ny7QEu7h46kWOhOjKzVwXx7BPcrkRbrjuezHHm5Q1eu5qfTmPZAqL5ZAXRXtsvLcTZCviGmVZBqGnHD02ZAi48M5AXBCFaBu3GpL5yWNTHZAVt41IuZCqwVdQ9OIxl5aMBexSF83geu2fHmBqufse3LFBAKueWh5Msn47kTMReVvdv1GsdW6RAZDZD";
-    
             var request = new Request();
             request.roomSize = req.body.roomSize;
             request.maxPrice = req.body.maxPrice;
@@ -103,7 +94,7 @@ router.post('/demoRequest', function(req, res) {
                 if(err){
                   return res.json(err);
                 }
-    
+                    
                     matching(request, facebookToken, function(score,room){
                         console.log("matching score is" + score)
                     
@@ -116,22 +107,26 @@ router.post('/demoRequest', function(req, res) {
                         match.save(function(err,match){
                             if(err){console.log(err)}
                             console.log("match saved")
-                            console.log(match)
-
+                            
                         });
-
-
     
                     });
-                    setTimeout(function() {
-                        Match.find().populate("roomId", "roomSize price").exec(function(err, matches){
-                            console.log(matches)
 
-                            return res.json({"matches": matches});
+                    //because other solutions had timing problems, the return of the values is after a hardcoded 5 seconds
+                    setTimeout(function() {
+                        Match.where("roomId").ne(null).populate("roomId", "roomSize price description district username").exec(function(err, matches){
+                            var realmatches = []
+                            matches.forEach(function(res){
+                                if (res.roomId != null){
+                                    realmatches.push(res);
+                                }
+
+                            });
+                            console.log(realmatches)
+                            return res.json({"matches": realmatches});
                         });
                     }, 5000);
                     
-                
             });
 });
 
@@ -173,24 +168,6 @@ router.put('/user/:user_id/request/:request_id', auth, function(req, res) {
     });
 });
 
-
-//DELETE single request
-//Input: auth token in header || user_id, request_id as param  
-// router.get('/user/:user_id/request/request/:request_id', function(req, res) {
-//     Request.findById(req.params.request_id, function(err, request) {
-//         if(err){
-//             return res.json(err);
-//         }
-
-//         request.remove(function(err, request) {
-//             if(err){
-//                 return res.json(err);
-//             }
-
-//             return res.json({"request": request});
-//         });
-//     });
-// });
 
 
 module.exports = router;

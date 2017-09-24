@@ -31,8 +31,10 @@ var data = [
             {
 
                 "roomSize": 30,
+                "description" : "Richtig cooles Zimmer",
+                "district" : "Charlottenburg",
+                "username": "Benedikt",
                 "price": 200,
-                "tags": ["fuckyes", "weedyes", "alcoholyes"],
                 "userInfo":{
                     "facebookId": "1844650538896345"
                 },
@@ -41,8 +43,10 @@ var data = [
             },
             {
                 "roomSize": 40,
+                "username": "Laura",
+                "district" : "Kreuzberg",
+                "description" : "Voll schnieke hier",
                 "price": 250,
-                "tags": ["fuckyes", "weedyes", "alcoholno"],
                 "userInfo":{
                     "facebookId": "1844650538896345"
                 },
@@ -51,8 +55,10 @@ var data = [
             },
             {
                 "roomSize": 33,
+                "username": "Klara",
+                "district" : "Marzahn",
+                "description" : "Garantiert voll nice ey",
                 "price": 200,
-                "tags": ["caryes", "cellphoneno", "pornyes"],
                 "userInfo":{
                     "facebookId": "1844650538896345"
                 },
