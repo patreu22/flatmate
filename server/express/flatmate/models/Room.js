@@ -12,6 +12,7 @@ var RoomSchema = new mongoose.Schema({
         data: Buffer, 
         contentType: String 
     },
+    username: String,
     roomSize: Number,
     price: Number,
     description: String, 

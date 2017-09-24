@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-require("../jobs/matching").matching;
+var matching = require("../jobs/matching").matching;
+
+
+
+var Match = mongoose.model('Match')
 
 
 //import mongoose models
@@ -73,6 +77,63 @@ router.post('/user/:user_id/request', auth, function(req, res) {
     });
 });
 
+
+
+router.get('/matches',function(req,res){
+    Match.find(function(err,matches){
+        console.log(matches)
+        return res.json({"matches": matches});
+    });
+
+});
+
+
+router.post('/demoRequest', function(req, res) {
+
+
+            var facebookToken = req.body.facebookToken
+            //var facebookToken = "EAAYrGhhGgZAoBAEEOsNa1aG5ny7QEu7h46kWOhOjKzVwXx7BPcrkRbrjuezHHm5Q1eu5qfTmPZAqL5ZAXRXtsvLcTZCviGmVZBqGnHD02ZAi48M5AXBCFaBu3GpL5yWNTHZAVt41IuZCqwVdQ9OIxl5aMBexSF83geu2fHmBqufse3LFBAKueWh5Msn47kTMReVvdv1GsdW6RAZDZD";
+    
+            var request = new Request();
+            request.roomSize = req.body.roomSize;
+            request.maxPrice = req.body.maxPrice;
+            request.tags = req.body.tags;
+    
+            request.save(function(err, request) {
+                if(err){
+                  return res.json(err);
+                }
+    
+                    matching(request, facebookToken, function(score,room){
+                        console.log("matching score is" + score)
+                    
+                        var match = new Match()
+
+                        match.score = score
+                        match.requestId = request._id
+                        match.roomId = room._id
+
+                        match.save(function(err,match){
+                            if(err){console.log(err)}
+                            console.log("match saved")
+                            console.log(match)
+
+                        });
+
+
+    
+                    });
+                    setTimeout(function() {
+                        Match.find().populate("roomId", "roomSize price").exec(function(err, matches){
+                            console.log(matches)
+
+                            return res.json({"matches": matches});
+                        });
+                    }, 5000);
+                    
+                
+            });
+});
 
 //GET single request 
 //Input: auth token in header || user_id, request_id as param

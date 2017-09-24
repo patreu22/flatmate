@@ -29,10 +29,10 @@ var matching = function(request, requester_access_token, request_callback){
 	  Room.find(function(err, rooms) {
 	  	  //console.log("rooms:")
 	      //console.log(rooms); 
-	      matching_score(request,rooms[0],requester_access_token, request_callback, requester_facebook_infos);
-	      //rooms.forEach(function(room){
-	      //	matching_score(request,room);
-	      //});
+	      
+	      rooms.forEach(function(room){
+	      	matching_score(request,rooms[0],requester_access_token, request_callback, requester_facebook_infos);
+	      });
 	     
 	      
 	   });
@@ -51,9 +51,9 @@ var matching_score = function(request, room, requester_access_token, request_cal
 	//console.log(room.userInfo.facebookId)
 
 	
-		console.log("got facebook infos")
+		//console.log("got facebook infos")
 		//console.log(requester_facebook_infos)
-		console.log(JSON.stringify(requester_facebook_infos))
+		//console.log(JSON.stringify(requester_facebook_infos))
 
 		//Verfügbare Daten:
 
@@ -63,7 +63,7 @@ var matching_score = function(request, room, requester_access_token, request_cal
 
 		//room
 		//room.facebook_infos
-
+console.log()
 		
 		var room_facebook_infos  = JSON.parse(room.facebookInfo);
 		//console.log(room_facebook_infos)
@@ -140,9 +140,9 @@ var matching_score = function(request, room, requester_access_token, request_cal
 
 		if (reqsports != null & roomsports != null){
 			common_sports = intersect(reqsports,roomsports).length
-			if (common_sports > 0){
+			if (common_sports.length > 0){
 				console.log("common sports:")
-				console.log(common_sports)
+				console.log(common_sports.length)
 				numberCommonBio += common_sports.length
 			}
 		}
@@ -163,16 +163,21 @@ var matching_score = function(request, room, requester_access_token, request_cal
 			var commonSchools = intersect(reqSchoolIds,roomSchoolIds);
 			if (commonSchools > 0){
 				console.log('common school!')
+				console.log(commonSchools.length)
 				numberCommonBio += commonSchools.length
 				//TODO we could handle what exaclty was matched
 			}
 		}
 
 		console.log( "finished matching score")
-		//console.log(numberCommonBio)
+		if (numberCommonBio === NaN){
+			numberCommonBio=0
+		}
+		console.log(numberCommonBio)
+
 		
-		//console.log(numberCommonLikes)
-		//console.log(numberCommonFriends)
+		console.log(numberCommonLikes)
+		console.log(numberCommonFriends)
 
 		var score = numberCommonBio + 0.1 *numberCommonLikes + 3*numberCommonFriends
 
@@ -181,7 +186,7 @@ var matching_score = function(request, room, requester_access_token, request_cal
 
 
 		console.log(score)
-		request_callback(score)
+		request_callback(score,room)
 
 
 
@@ -305,7 +310,7 @@ var get_facebook_data = function(facebookToken, cb){
 		  
 		}
 
-		//console.log(like_res);
+		console.log(like_res);
 		facebook_infos.likes = like_res.data;
 		if (like_res.paging.next != null){
 			

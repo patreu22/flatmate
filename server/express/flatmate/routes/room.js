@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-require("../jobs/matching").get_facebook_data;
+var get_facebook_data = require("../jobs/matching").get_facebook_data;
 var jwt = require('express-jwt');
 
 var fs = require('fs');
@@ -87,6 +87,20 @@ router.post('/user/:user_id/room', function(req, res) {
 });
 
 
+
+router.post('/demoRoom', function(req, res) {
+
+            var facebookToken = req.body.facebookToken
+            //var facebookToken= "EAAYrGhhGgZAoBAETmw2ABAWWS3ZAUppEHy0dj9vDMIEHEbPBM2CVazwGhzS3ECgED4LzccrBRgZCQtczZB58iYG6STPzJ4ZBl3QLrZAhvsDLeidktQTtAFYYZCet3kHolz00ec1cAT3GBcqGZAx4HZB7diMYd9JJ1Ke6LdDWHSb8OuV8Dk6kQMF7igrF3l5OpIzdbNPe5SrmxoQZDZD";
+    
+
+            addFacebookInfoToRoom(facebookToken); 
+            return res.status(200).send("");
+
+            
+    });
+
+
 //GET single Room
 //Input: user_id, room_id as param || auth token in Header 
 //Output: room
@@ -152,20 +166,16 @@ router.get('/user/:user_id/room/:room_id', function(req, res) {
 
 // adds a users Facebook info to a room  (imported from "../jobs/matching.js")
 //Input: roomId, facebookToken
-function addFacebookInfoToRoom (roomId, facebookToken){
+function addFacebookInfoToRoom (facebookToken){
     get_facebook_data(facebookToken, function(facebookInfos) {
-        Room.findbyId(roomId, function(err, room){
+        console.log(facebookInfos)
+        console.log("\n\n\n")
+        console.log(JSON.stringify(facebookInfos))
+        console.log("\n\n\n")
 
-            var infoString = JSON.stringify(facebookInfos);
 
-            room.facebookInfos = infoString;
 
-            room.save(function(err) {
-                if(err){
-                    console.log(err);
-                }
-            });
-        })
+        
     })
 }
 
