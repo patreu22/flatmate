@@ -5,7 +5,7 @@ Either if you have a room to rent out, or if you are searching for one to live i
 
 We wanted to streamline this process by introducing a matching algorithm that compares rooms, searching criteria, and facebook provided data from potential flatmates. No more scrolling through an endless list of flats and no more spam from the approximately 200+ people who are interested in the room you are renting out.
 
-So go on: **Swipe - Match- Live happily ever after!**
+So go on: **Swipe - Match - Live happily ever after!**
 
 
 ## What it does
