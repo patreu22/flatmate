@@ -8,6 +8,9 @@
 
 import Foundation
 import UIKit
+import FacebookCore
+import Moya
+import SwiftyJSON
 
 class AppCoordinator {
     
@@ -21,20 +24,52 @@ class AppCoordinator {
     }
     
     func start(){
-        let vc = LoginViewController()
-        
+        let tokenExisting = AccessToken.current != nil
+        var vc = LoginViewController()
+
         vc.actions.didLoginSuccessfully = { [weak self] in
-            self?.showUserMainScreen()
+            print("Yo!")
+            self?.showChoosePreferences()
         }
-    
+        
         currentViewController = vc
         navigationController = UINavigationController(rootViewController: vc)
+        navigationController.setNavigationBarHidden(true, animated: false)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+        
+        if tokenExisting{
+            showChoosePreferences()
+        }
     }
 
-    private func showUserMainScreen(){
+    private func showUserMainScreen(matches: JSON){
+        let vc = MainSwipingViewController(matches: matches)
+        pushAndMakeCurrent(vc)
+    }
+    
+    private func showChoosePreferences(){
+        let preferencesForm = PreferencesFormController()
         
+        preferencesForm.actions.didSelectStartSwiping = { [weak self] min, max, district, moveDate in
+            let provider = MoyaProvider<API>()
+            provider.request(.demoRequest(facebookToken: AccessToken.current!.authenticationToken), completion: { (response) in
+                print(response)
+                switch response{
+                case .success(_):
+                    let json = JSON(data: response.value!.data)
+                    let matches = json["matches"].array
+                    print(json)
+                    self?.showUserMainScreen(matches: json["matches"])
+                    break
+                default:
+                    // TODO Change
+                    break
+                }
+            })
+        }
+        
+        self.pushAndMakeCurrent(preferencesForm)
     }
     
     private func pushAndMakeCurrent(_ viewController: UIViewController, animated: Bool = true) {

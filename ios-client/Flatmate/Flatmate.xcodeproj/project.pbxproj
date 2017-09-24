@@ -9,12 +9,20 @@
 /* Begin PBXBuildFile section */
 		843AD93F2BCA258C28E1F09A /* Pods_Flatmate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F703C94146C58B11DFB49EE /* Pods_Flatmate.framework */; };
 		CD3E8F581F7670D20003B124 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E8F571F7670D20003B124 /* AppDelegate.swift */; };
-		CD3E8F5A1F7670D20003B124 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E8F591F7670D20003B124 /* ViewController.swift */; };
 		CD3E8F5D1F7670D20003B124 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD3E8F5B1F7670D20003B124 /* Main.storyboard */; };
 		CD3E8F5F1F7670D20003B124 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD3E8F5E1F7670D20003B124 /* Assets.xcassets */; };
 		CD3E8F621F7670D20003B124 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD3E8F601F7670D20003B124 /* LaunchScreen.storyboard */; };
 		CD3E8F6A1F7670F00003B124 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E8F691F7670F00003B124 /* AppCoordinator.swift */; };
 		CD3E8F6C1F7671CA0003B124 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E8F6B1F7671CA0003B124 /* LoginViewController.swift */; };
+		CD5FCDB11F769199008AFB2A /* MainSwipingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5FCDB01F769199008AFB2A /* MainSwipingViewController.swift */; };
+		CD5FCDB41F76AD44008AFB2A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5FCDB31F76AD44008AFB2A /* API.swift */; };
+		CD5FCDB91F770722008AFB2A /* CircularStd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = CD5FCDB61F7706A6008AFB2A /* CircularStd-Book.otf */; };
+		CD5FCDBA1F770725008AFB2A /* CircularStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CD5FCDB81F7706A7008AFB2A /* CircularStd-Medium.otf */; };
+		CD5FCDBB1F770727008AFB2A /* CircularStd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CD5FCDB71F7706A6008AFB2A /* CircularStd-Bold.otf */; };
+		CD5FCDBD1F771499008AFB2A /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5FCDBC1F771499008AFB2A /* Styles.swift */; };
+		CD5FCDBF1F771541008AFB2A /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5FCDBE1F771541008AFB2A /* UIColorExtension.swift */; };
+		CD5FCDC11F771EC1008AFB2A /* PreferencesFormController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5FCDC01F771EC1008AFB2A /* PreferencesFormController.swift */; };
+		CD5FCDC31F77214A008AFB2A /* FlatmateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5FCDC21F77214A008AFB2A /* FlatmateTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,13 +31,22 @@
 		5F703C94146C58B11DFB49EE /* Pods_Flatmate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Flatmate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3E8F541F7670D20003B124 /* Flatmate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatmate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3E8F571F7670D20003B124 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CD3E8F591F7670D20003B124 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CD3E8F5C1F7670D20003B124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD3E8F5E1F7670D20003B124 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD3E8F611F7670D20003B124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD3E8F631F7670D20003B124 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD3E8F691F7670F00003B124 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		CD3E8F6B1F7671CA0003B124 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		CD5FCDB01F769199008AFB2A /* MainSwipingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSwipingViewController.swift; sourceTree = "<group>"; };
+		CD5FCDB21F76931A008AFB2A /* Flatmate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flatmate-Bridging-Header.h"; sourceTree = "<group>"; };
+		CD5FCDB31F76AD44008AFB2A /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		CD5FCDB61F7706A6008AFB2A /* CircularStd-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Book.otf"; sourceTree = "<group>"; };
+		CD5FCDB71F7706A6008AFB2A /* CircularStd-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Bold.otf"; sourceTree = "<group>"; };
+		CD5FCDB81F7706A7008AFB2A /* CircularStd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Medium.otf"; sourceTree = "<group>"; };
+		CD5FCDBC1F771499008AFB2A /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		CD5FCDBE1F771541008AFB2A /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		CD5FCDC01F771EC1008AFB2A /* PreferencesFormController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesFormController.swift; sourceTree = "<group>"; };
+		CD5FCDC21F77214A008AFB2A /* FlatmateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatmateTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,16 +99,33 @@
 		CD3E8F561F7670D20003B124 /* Flatmate */ = {
 			isa = PBXGroup;
 			children = (
+				CD5FCDB51F77069B008AFB2A /* Fonts */,
 				CD3E8F691F7670F00003B124 /* AppCoordinator.swift */,
 				CD3E8F571F7670D20003B124 /* AppDelegate.swift */,
-				CD3E8F591F7670D20003B124 /* ViewController.swift */,
+				CD5FCDB01F769199008AFB2A /* MainSwipingViewController.swift */,
 				CD3E8F5B1F7670D20003B124 /* Main.storyboard */,
 				CD3E8F6B1F7671CA0003B124 /* LoginViewController.swift */,
 				CD3E8F5E1F7670D20003B124 /* Assets.xcassets */,
 				CD3E8F601F7670D20003B124 /* LaunchScreen.storyboard */,
 				CD3E8F631F7670D20003B124 /* Info.plist */,
+				CD5FCDB21F76931A008AFB2A /* Flatmate-Bridging-Header.h */,
+				CD5FCDB31F76AD44008AFB2A /* API.swift */,
+				CD5FCDBC1F771499008AFB2A /* Styles.swift */,
+				CD5FCDBE1F771541008AFB2A /* UIColorExtension.swift */,
+				CD5FCDC01F771EC1008AFB2A /* PreferencesFormController.swift */,
+				CD5FCDC21F77214A008AFB2A /* FlatmateTextField.swift */,
 			);
 			path = Flatmate;
+			sourceTree = "<group>";
+		};
+		CD5FCDB51F77069B008AFB2A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CD5FCDB71F7706A6008AFB2A /* CircularStd-Bold.otf */,
+				CD5FCDB61F7706A6008AFB2A /* CircularStd-Book.otf */,
+				CD5FCDB81F7706A7008AFB2A /* CircularStd-Medium.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,9 +190,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD5FCDBA1F770725008AFB2A /* CircularStd-Medium.otf in Resources */,
+				CD5FCDBB1F770727008AFB2A /* CircularStd-Bold.otf in Resources */,
 				CD3E8F621F7670D20003B124 /* LaunchScreen.storyboard in Resources */,
 				CD3E8F5F1F7670D20003B124 /* Assets.xcassets in Resources */,
 				CD3E8F5D1F7670D20003B124 /* Main.storyboard in Resources */,
+				CD5FCDB91F770722008AFB2A /* CircularStd-Book.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,19 +242,37 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Flatmate/Pods-Flatmate-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/Koloda/Koloda.framework",
+				"${BUILT_PRODUCTS_DIR}/MDCSwipeToChoose/MDCSwipeToChoose.framework",
+				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/TPKeyboardAvoiding/TPKeyboardAvoiding.framework",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Koloda.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDCSwipeToChoose.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stevia.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TPKeyboardAvoiding.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -232,8 +287,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD3E8F6C1F7671CA0003B124 /* LoginViewController.swift in Sources */,
+				CD5FCDBD1F771499008AFB2A /* Styles.swift in Sources */,
+				CD5FCDB11F769199008AFB2A /* MainSwipingViewController.swift in Sources */,
+				CD5FCDC31F77214A008AFB2A /* FlatmateTextField.swift in Sources */,
+				CD5FCDBF1F771541008AFB2A /* UIColorExtension.swift in Sources */,
+				CD5FCDC11F771EC1008AFB2A /* PreferencesFormController.swift in Sources */,
 				CD3E8F6A1F7670F00003B124 /* AppCoordinator.swift in Sources */,
-				CD3E8F5A1F7670D20003B124 /* ViewController.swift in Sources */,
+				CD5FCDB41F76AD44008AFB2A /* API.swift in Sources */,
 				CD3E8F581F7670D20003B124 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
